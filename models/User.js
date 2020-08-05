@@ -2,7 +2,6 @@ const validator = require('validator');
 const {Schema, model} = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 
 const _hashPassword = async password => {
   // genSalt(8); >8 - too slow, <8 - easier to crack
@@ -60,7 +59,7 @@ const userSchema = new Schema({
 userSchema.method('generateToken', async function() {
   console.log(this);
   // this = current document
-  const token = await jwt.sign({_id: this._id.toString()}, config.get('jwtSecret'), {expiresIn: '1h'});
+  const token = await jwt.sign({_id: this._id.toString()}, process.env.JWT_SECRET, {expiresIn: '1h'});
   this.tokens = this.tokens.concat({token});
   // todo maybe not save, will see later
   await this.save();

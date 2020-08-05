@@ -1,7 +1,6 @@
 const sgMail = require('@sendgrid/mail');
-const sendGridApiKey = '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';
 
-sgMail.setApiKey(sendGridApiKey);
+sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 // subject === leave for leave, any other for join
 module.exports = async (email, name, subject) => {
